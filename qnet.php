@@ -16,6 +16,8 @@ IF(ISSET($_SESSION['name'])){
 
     <title>CSMon</title>
 
+    <link rel="shortcut icon" href="vendor/fontawesome-free/svgs/regular/laugh-wink.svg">
+
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link

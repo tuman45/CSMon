@@ -10,8 +10,11 @@ IF(ISSET($_SESSION['name'])){
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+
 	<title>CSMon - Tambah PKL</title>
 	
+	<link rel="shortcut icon" href="vendor/fontawesome-free/svgs/regular/laugh-wink.svg">
+
 	<!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
