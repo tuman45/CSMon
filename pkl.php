@@ -326,74 +326,155 @@ IF(ISSET($_SESSION['name'])){
                 <div class="container-fluid">
                 
                 <?php
-                include "koneksi.php";
-                
-                if (isset($_GET['id'])) {
-                	$id=htmlspecialchars($_GET["id"]);
-                	
-                	$sql="DELETE FROM pkl WHERE id='$id'";
-                	$hasil=mysqli_query($kon,$sql);
-                	
-                	if ($hasil > 0) {
-                        
-                    echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Data Berhasil Dihapus
-                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
-                    </button>
-                    </div>";
-                  }else {
-                  echo "<div class='alert alert-danger'>Data Gagal Dihapus.
-                  <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
-                    </button>
-                    </div>";
-                  }
-                 }
                  ?>
 
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Daftar Siswa PKL</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <a href="tambah-pkl.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus-circle"></i> Tambah Baru</a>
-                                    <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label>
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                             <th>Nama</th>
-                                            <th>Sekolah</th>
-                                            <th>No HP</th>
-                                            <th>Email</th>
-                                            <th>Awal PKL</th>
-                                            <th>Akhir PKL</th>
-                                            <th colspan='2'>Aksi</th>
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Daftar Siswa PKL</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+<!-- Button trigger modal create -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal"><i class="fas fa-plus-circle"></i>
+            Tambah Baru
+        </button>
+<!-- Modal create -->
+        <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Masukkan Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="container">
+		<?php
+		include "koneksi.php";
+
+		function input($data) {
+			$data = trim($data);
+			$data = stripslashes($data);
+			$data = htmlspecialchars($data);
+			return $data;
+		}
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	
+		$nama=input($_POST["nama"]);
+		$sekolah=input($_POST["sekolah"]);
+		$hp=input($_POST["hp"]);
+		$email=input($_POST["email"]);
+		$awalpkl=input($_POST["awalpkl"]);
+		$akhirpkl=input($_POST["akhirpkl"]);
+		
+		$sql="insert into pkl (nama,sekolah,hp,email,awalpkl,akhirpkl) values ('$nama','$sekolah','$hp','$email','$awalpkl','$akhirpkl')";
+		
+		$hasil=mysqli_query($kon,$sql);
+		
+		if ($hasil) {
+			echo"
+        <script>
+            alert('Data Berhasil Ditambah');
+            document.location.href = 'pkl.php';
+        </script>
+        ";
+		}
+		else {
+			echo "<div class='alert alert-danger'>Data Gagal Disimpan.</div>";
+		}
+	}
+	?>
+	
+	<form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+		<div class="form-group">
+			<label>Nama:</label>
+			<input type="text" name="nama" class="form-control" placeholder="Masukkan Nama" required />
+		</div>
+		<div class="form-group">
+			<label>Sekolah:</label>
+			<select class="form-select"  name="sekolah" required />
+			<option selected>Silahkan Pilih</option>
+			  	<option value="SMK Yapalis">SMK Yapalis</option>
+  				<option value="SMKN 1 Pungging">SMKN 1 Pungging</option>
+  				<option value="SMK Wijaya Putra">SMK Wijaya Putra</option>
+  				<option value="SMK Maarif NU Driyorejo">SMK Maarif NU Driyorejo</option>
+				<option value="SMKN 2 Surabaya">SMKN 2 Surabaya</option>
+				<option value="SMKN 1 Cerme">SMKN 1 Cerme</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>No HP:</label>
+			<input type="text" name="hp" class="form-control" placeholder="Masukkan No HP" required />
+		</div>
+		<div class="form-group">
+			<label>Email:</label>
+			<input type="text" name="email" class="form-control" placeholder="Masukkan Email" required />
+		</div>
+		<div class="form-group">
+			<label>Awal PKL:</label>
+			<input class="date form-control" type="text" name="awalpkl" required />
+		</div>
+		<div class="form-group">
+			<label>Akhir PKL:</label>
+			<input class="date form-control" type="text" name="akhirpkl" required />
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+</div>
+</div>
+</div>
+</div>
+</form>
+            <table class='table table-bordered' id='dataTable' width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Sekolah</th>
+                        <th>No HP</th>
+                        <th>Email</th>
+                        <th>Awal PKL</th>
+                        <th>Akhir PKL</th>
+                        <th>Aksi</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    include "koneksi.php";
+                                    
+                    if (isset($_GET['id'])) {
+                        $id=htmlspecialchars($_GET["id"]);
+                                        
+                        $sql="DELETE FROM pkl WHERE id='$id'";
+                        $hasil=mysqli_query($kon,$sql);
+                                        
+                            if ($hasil > 0) {
                                             
-                                        </tr>
-                                    </thead>
-<!--                                     <tfoot>
-                                        <tr>
-                                            <th>No</th>
-                                             <th>Nama</th>
-                                            <th>Sekolah</th>
-                                            <th>No HP</th>
-                                            <th>Email</th>
-                                            <th>Awal PKL</th>
-                                            <th>Akhir PKL</th>
-                                            <th colspan='2'>Aksi</th>
-                                          </tr>
-                                    </tfoot> -->
-                                    <?php
-                                    include "koneksi.php";
-                                    $sql="select * from pkl order by id desc";
+                                echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Data Berhasil Dihapus
+                                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
+                                        </button>
+                                    </div>";
+                            }else {
+                                echo "<div class='alert alert-danger'>Data Gagal Dihapus.
+                                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
+                                        </button>
+                                    </div>";
+                            }
+                    }
+                                    $sql="SELECT * FROM pkl ORDER BY id DESC";
                                     
                                     $hasil=mysqli_query($kon,$sql);
                                     $no=0;
                                     while ($data = mysqli_fetch_array($hasil)) {
                                     $no++;
                                     ?>
-                                    <tbody>
                                         <tr>
                                             <td><?php echo $no; ?></td>
                                             <td><?php echo $data["nama"]; ?></td>
@@ -408,11 +489,10 @@ IF(ISSET($_SESSION['name'])){
                                             	</td>
                                             	
                                         </tr>
-                                        
-                                    </tbody>
-                                    <?php
+                                        <?php
                                     }
                                     ?>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -481,7 +561,12 @@ IF(ISSET($_SESSION['name'])){
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-
+    
+    <script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
 </body>
 
 </html>
