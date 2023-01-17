@@ -9,7 +9,7 @@
   <meta name="author" content="">
 
   <title>CSMon - Login</title>
-  
+
   <link rel="shortcut icon" href="vendor/fontawesome-free/svgs/regular/laugh-wink.svg">
 
   <!-- Custom fonts for this template-->
@@ -19,7 +19,7 @@
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 
-<body class="bg-gradient-primary" >
+<body class="bg-gradient-primary">
   <div class="container">
     <!-- Outer Row -->
     <div class="row justify-content-center">
@@ -35,17 +35,17 @@
                   </div>
                   <form action="" method="POST" class="user">
                     <div class="form-group">
-                      <input type="text" class="form-control form-control-user" name="name" placeholder="Enter Your Name">
+                      <input type="text" class="form-control form-control-user" name="name" placeholder="Enter Your Name" autofocus>
                     </div>
                     <div class="form-group">
                       <input type="password" class="form-control form-control-user" name="password" placeholder="Password">
                     </div>
                     <div class="form-group"></div>
-                    
-           <br>
-                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit"  name="login">Masuk</button>
+
+                    <br>
+                    <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" name="login">Masuk</button>
                   </form>
-                  
+
                 </div>
               </div>
             </div>
@@ -66,21 +66,20 @@
 </html>
 <?php
 include "koneksi.php";
-IF(ISSET($_POST['login'])){
-    $name = $_POST['name'];
-    $password = md5($_POST['password']);
-    
-    $cek = mysqli_num_rows(mysqli_query($kon, "SELECT * FROM users WHERE name='$name' AND password='$password'"));
-    $data = mysqli_fetch_array(mysqli_query($kon, "SELECT * FROM users WHERE name='$name' AND password='$password'"));
-    IF($cek > 0)
-    {
-        
-        session_start();
-        $_SESSION['name'] = $data['name'];
-        $_SESSION['name'] = $data['role'];
-        echo "<script language=\"javascript\">alert(\"welcome \");document.location.href='index.php';</script>";
-    }else{
-        echo "<script language=\"javascript\">alert(\"Invalid username or password\");document.location.href='login.php';</script>";
-    }
+if (isset($_POST['login'])) {
+  $name = $_POST['name'];
+  $password = md5($_POST['password']);
+
+  $cek = mysqli_num_rows(mysqli_query($kon, "SELECT * FROM users WHERE name='$name' AND password='$password'"));
+  $data = mysqli_fetch_array(mysqli_query($kon, "SELECT * FROM users WHERE name='$name' AND password='$password'"));
+  if ($cek > 0) {
+
+    session_start();
+    $_SESSION['name'] = $data['name'];
+    $_SESSION['name'] = $data['role'];
+    echo "<script language=\"javascript\">alert(\"welcome \");document.location.href='index.php';</script>";
+  } else {
+    echo "<script language=\"javascript\">alert(\"Invalid username or password\");document.location.href='login.php';</script>";
+  }
 }
 ?>
