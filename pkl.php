@@ -4,6 +4,33 @@ if (isset($_SESSION['name'])) {
 ?>
 
     <?php
+
+    function tgl_ind($tanggal)
+    {
+        $bulan = array(
+            1 =>   'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        );
+
+        $pecahkan = explode('-', $tanggal);
+
+        // variabel pecahkan 0 = tahun
+        // variabel pecahkan 1 = bulan
+        // variabel pecahkan 2 = tanggal
+
+        return $pecahkan[2] . ' ' . $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[0];
+    }
+
     // create
     include 'koneksi.php';
     function input($data)
@@ -254,11 +281,21 @@ if (isset($_SESSION['name'])) {
                                                     <td><?php echo $data["sekolah"]; ?></td>
                                                     <td><?php echo $data["hp"]; ?></td>
                                                     <td><?php echo $data["email"]; ?></td>
-                                                    <td><?php echo date('d-M-Y', strtotime($data["awalpkl"])); ?></td>
-                                                    <td><?php echo date('d-M-Y', strtotime($data["akhirpkl"])); ?></td>
+                                                    <td><?php echo $data["awalpkl"]; ?></td>
+                                                    <td><?php echo $data["akhirpkl"]; ?></td>
                                                     <td>
                                                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#update<?= $data['id']; ?>">Ubah</button>
                                                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?= $data['id']; ?>">Hapus</button>
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                Sertifikat
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                <a href="sertifikat.php?id=<?= $data['id'] ?>" class="dropdown-item " target="_blank">Download PDF</a>
+                                                                <!-- <a class="dropdown-item" href="#">Send Email</a> -->
+                                                            </div>
+                                                        </div>
+
                                                     </td>
                                                 </tr>
                                                 <!-- Modal Edit -->
