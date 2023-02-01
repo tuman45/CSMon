@@ -317,10 +317,8 @@ IF(ISSET($_SESSION['name'])){
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
-                </nav>
+                 </nav>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
