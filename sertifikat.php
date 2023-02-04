@@ -48,4 +48,4 @@ $pdf->MultiCell(0, 10, $nama, 0, 'C', 0);
 $pdf->SetFont('times', '', 22);
 $pdf->SetY(106);
 $pdf->MultiCell(0, 10, $tgl_sertifikat, 0, 'C', 0);
-$pdf->Output('', $nama . ' Sertifikat.pdf', false);
+$pdf->Output('D', 'Sertifikat ' . $nama . '.pdf', false);
