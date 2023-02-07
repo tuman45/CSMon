@@ -1,3 +1,8 @@
+<?php session_start();
+if (isset($_SESSION['name'])) {
+  header("location:index.php");
+  exit;
+} ?>
 <!DOCTYPE html>
 <html>
 
@@ -74,7 +79,6 @@ if (isset($_POST['login'])) {
   $data = mysqli_fetch_array(mysqli_query($kon, "SELECT * FROM users WHERE name='$name' AND password='$password'"));
   if ($cek > 0) {
 
-    session_start();
     $_SESSION['name'] = $data['name'];
     $_SESSION['name'] = $data['role'];
     echo "<script language=\"javascript\">alert(\"welcome \");document.location.href='index.php';</script>";
