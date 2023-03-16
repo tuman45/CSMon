@@ -1,6 +1,105 @@
 <?php
 session_start();
 if (isset($_SESSION['name'])) {
+
+    // create
+    include 'koneksi.php';
+    function input($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
+    if (isset($_POST['tambah'])) {
+
+        $username = input($_POST["username"]);
+        $password = input($_POST["password"]);
+        $no_wa = input($_POST["no-wa"]);
+        $alamat = input($_POST["alamat"]);
+        $id_paket = $_POST["id_paket"];
+        $ip = input($_POST["ip"]);
+
+        $sql = "INSERT INTO pelanggan (username, password, no_wa, alamat, id_paket, ip) VALUES ('$username', '$password', '$no_wa', '$alamat', '$id_paket', '$ip')";
+
+        $create = mysqli_query($kon, $sql);
+
+        if ($create) {
+            echo
+            "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
+            $alert =
+                "<div class='alert alert-success'>
+            <strong>Data Berhasil Ditambah</strong>
+            </div>";
+        } else {
+            $alert =
+                "<div class='alert alert-danger'>Data Gagal Ditambah.
+<button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
+</button>
+</div>";
+        }
+    }
+
+    // Update
+    //cek apakah ada kiriman form dari method post
+    if (isset($_POST['update'])) {
+
+        $id_pelanggan = htmlspecialchars($_POST["id_pelanggan"]);
+        $username = input($_POST["username"]);
+        $password = input($_POST["password"]);
+        $no_wa = input($_POST["no-wa"]);
+        $alamat = input($_POST["alamat"]);
+        $id_paket = input($_POST["id_paket"]);
+        $ip = input($_POST["ip"]);
+
+        $sql = "UPDATE pelanggan SET
+        username='$username',
+        password='$password',
+        no_wa='$no_wa',
+        alamat='$alamat',
+        id_paket='$id_paket',
+        ip='$ip'
+        WHERE id_pelanggan=$id_pelanggan";
+        $update = mysqli_query($kon, $sql);
+
+        if ($update) {
+            echo
+            "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
+            $alert =
+                "<div class='alert alert-success'>
+            <strong>Data Berhasil Diubah</strong>
+            </div>";
+        } else {
+            $alert = "<div class='alert alert-danger'>Data Gagal Diubah.
+<button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
+</button>
+</div>";
+        }
+    }
+
+    //Delete 
+    if (isset($_POST['delete'])) {
+        $id_pelanggan = htmlspecialchars($_POST["id_pelanggan"]);
+
+        $sql = "DELETE FROM pelanggan WHERE id_pelanggan='$id_pelanggan'";
+        $delete = mysqli_query($kon, $sql);
+
+        if ($delete > 0) {
+            echo
+            "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
+            $alert =
+                "<div class='alert alert-success'>
+            <strong>Data Berhasil Dihapus</strong>
+            </div>";
+        } else {
+            $alert =
+                "<div class='alert alert-danger'>Data Gagal Dihapus.
+            <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
+            </button>
+            </div>";
+        }
+    }
 ?>
 
     <!DOCTYPE html>
@@ -51,6 +150,62 @@ if (isset($_SESSION['name'])) {
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
+                        <!-- Modal create -->
+                        <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Masukkan Data</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container">
+
+                                            <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+                                                <div class="form-group">
+                                                    <label>Username:</label>
+                                                    <input type="text" name="username" class="form-control" required />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Pasword :</label>
+                                                    <input type="password" name="password" class="form-control" required />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>No. Yang Bisa Dihubungi :</label>
+                                                    <input type="number" name="no-wa" class="form-control" required />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Alamat :</label>
+                                                    <input type="text" name="alamat" class="form-control" required />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Paket:</label>
+                                                    <select class="form-control" name="id_paket" id="id_paket" required>
+                                                        <option selected>Silahkan Pilih</option>
+                                                        <?php
+                                                        $query_paket = mysqli_query($kon, "SELECT * FROM paket");
+                                                        while ($paket = mysqli_fetch_array($query_paket)) { ?>
+                                                            <option value="<?= $paket['id_paket'] ?>"><?php echo $paket['paket'] ?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>IP :</label>
+                                                    <input type="text" name="ip" class="form-control" required />
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                        <button type="submit" name="tambah" class="btn btn-primary">Kirim</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                        <!-- End Modal Create -->
 
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
@@ -59,11 +214,14 @@ if (isset($_SESSION['name'])) {
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create"><i class="fas fa-plus-circle"></i>
+                                        Tambah Baru
+                                    </button>
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Nama</th>
+                                                <th>Username</th>
                                                 <th>Password</th>
                                                 <th>No. Yang Bisa Dihubungi</th>
                                                 <th>Alamat</th>
@@ -75,22 +233,96 @@ if (isset($_SESSION['name'])) {
                                         <tbody>
                                             <tr>
                                                 <?php
-                                                include 'koneksi.php';
                                                 $sql = "SELECT * FROM pelanggan JOIN paket ON pelanggan.id_paket = paket.id_paket";
                                                 $no = 0;
                                                 $hasil = mysqli_query($kon, $sql);
                                                 while ($row = mysqli_fetch_array($hasil)) {
                                                     $no++ ?>
                                                     <td><?php echo $no ?></td>
-                                                    <td><?php echo $row["username"] ?></td>
+                                                    <td><a class="text-reset text-decoration-none" href="detail_pelanggan.php?id_pelanggan=<?php echo $row["id_pelanggan"] ?>"><?php echo $row["username"] ?></a></td>
                                                     <td><?php echo $row["password"] ?></td>
                                                     <td><?php echo $row["no_wa"] ?></td>
                                                     <td><?php echo $row["alamat"] ?></td>
                                                     <td><?php echo $row["paket"] ?></td>
                                                     <td><?php echo $row["ip"] ?></td>
                                                     <td>
-                                                        <a class="btn btn-secondary" href="detail_pelanggan.php?id_pelanggan=<?php echo $row["id_pelanggan"] ?>"><i class="fa fa-info"></i></a>
+                                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#update<?= $row['id_pelanggan']; ?>"><i class="fa fa-edit"></i></button>
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?= $row['id_pelanggan']; ?>"><i class="fa fa-trash-alt"></i></button>
                                                     </td>
+                                                    <!-- Modal Edit -->
+                                                    <div class="modal fade" id="update<?= $row['id_pelanggan']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle">Ubah Data</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+                                                                        <input type="hidden" name="id_pelanggan" value="<?php echo $row['id_pelanggan']; ?>" />
+                                                                        <div class="form-group">
+                                                                            <label>Nama:</label>
+                                                                            <input type="text" name="username" class="form-control" placeholder="Masukkan Username" value="<?php echo $row['username']; ?>" required />
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Password:</label>
+                                                                            <input type="password" name="password" class="form-control" placeholder="Masukkan Password" value="<?php echo $row['password']; ?>" required />
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>No. Yang Bisa Dihubungi :</label>
+                                                                            <input type="number" name="no-wa" class="form-control" value="<?php echo $row['no_wa'] ?>" required />
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Alamat:</label>
+                                                                            <input type="text" name="alamat" class="form-control" placeholder="Masukkan Alamat" value="<?php echo $row['alamat']; ?>" required />
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Paket:</label>
+                                                                            <select class="custom-select" name="id_paket" id="paket" required>
+                                                                                <option value="<?php echo $row['id_paket'] ?>" selected><?php echo $row['paket'] ?></option>
+                                                                                <option>Silahkan Pilih</option>
+                                                                                <?php
+                                                                                $query_paket = mysqli_query($kon, "SELECT * FROM paket");
+                                                                                while ($paket = mysqli_fetch_array($query_paket)) { ?>
+                                                                                    <option value="<?= $paket['id_paket'] ?>"><?php echo $paket['paket'] ?></option>
+                                                                                <?php } ?>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>IP:</label>
+                                                                            <input type="text" name="ip" class="form-control" placeholder="Masukkan IP" value="<?php echo $row['ip']; ?>" required />
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                                            <button type="submit" name="update" class="btn btn-primary">Ubah</button>
+                                                                        </div>
+                                                                </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Modal Edit -->
+                                                    <!-- Modal Delete -->
+                                                    <div class="modal fade" id="delete<?= $row['id_pelanggan']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle">Hapus Data</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+                                                                        <input type="hidden" name="id_pelanggan" value="<?php echo $row['id_pelanggan']; ?>" /><strong>Apakah Anda Yakin Ingin Menghapus Data</strong>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                                    <button type="submit" name="delete" class="btn btn-danger">Hapus</button>
+                                                                </div>
+                                                                <!-- End Modal Delete -->
                                             </tr>
                                         <?php } ?>
                                         </tbody>
@@ -106,13 +338,7 @@ if (isset($_SESSION['name'])) {
                 <!-- End of Main Content -->
 
                 <!-- Footer -->
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; CV Future Solution 2022</span>
-                        </div>
-                    </div>
-                </footer>
+                <?php include 'footer.php'; ?>
                 <!-- End of Footer -->
 
             </div>
