@@ -91,7 +91,7 @@ if (isset($_SESSION['name'])) {
     $pdf->SetXY(17, 150);
     $pdf->Cell(0, 10, "Sidoarjo, $tgl_sekarang", 0, 0);
     // Output
-    $pdf->Output('I', 'Sertifikat ' . $nama . '.pdf', false);
+    $pdf->Output('D', 'Sertifikat ' . $nama . '.pdf', false);
 } else {
     echo "<script language=\"javascript\">alert(\"Please login\");document.location.href='login.php';</script>";
 }
