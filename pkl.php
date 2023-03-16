@@ -254,15 +254,15 @@ if (isset($_SESSION['name'])) {
                                                     <td><?php echo $data["awalpkl"]; ?></td>
                                                     <td><?php echo $data["akhirpkl"]; ?></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#update<?= $data['id']; ?>">Ubah</button>
-                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?= $data['id']; ?>">Hapus</button>
+                                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#update<?= $data['id']; ?>"><i class="fa fa-edit"></i></button>
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?= $data['id']; ?>"><i class="fa fa-trash-alt"></i></button>
                                                         <div class="dropdown">
                                                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                 Sertifikat
                                                             </button>
                                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                 <a href="sertifikat.php?id=<?= $data['id'] ?>" class="dropdown-item " target="_blank">Download PDF</a>
-                                                                <!-- <a class="dropdown-item" href="#">Send Email</a> -->
+                                                                <!-- <a class="dropdown-item" href="tes-jpg.php">Download JPG</a> -->
                                                             </div>
                                                         </div>
 
@@ -354,25 +354,17 @@ if (isset($_SESSION['name'])) {
                             </div>
                         </div>
                     </div>
+                    <!-- /.container-fluid -->
+
                 </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <?php include 'footer.php'; ?>
+                <!-- End of Footer -->
+
             </div>
-            <!-- /.container-fluid -->
-
-        </div>
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; CV Future Solution 2022</span>
-                </div>
-            </div>
-        </footer>
-        <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
+            <!-- End of Content Wrapper -->
 
         </div>
         <!-- End of Page Wrapper -->
