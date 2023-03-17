@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jan 10, 2023 at 12:05 PM
--- Server version: 5.5.68-MariaDB
--- PHP Version: 8.0.0
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 17 Mar 2023 pada 09.10
+-- Versi server: 10.4.27-MariaDB
+-- Versi PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,13 +20,88 @@ SET time_zone = "+00:00";
 --
 -- Database: `admin_csmon`
 --
-CREATE DATABASE IF NOT EXISTS `admin_csmon` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `admin_csmon`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pkl`
+-- Struktur dari tabel `paket`
+--
+
+CREATE TABLE `paket` (
+  `id_paket` int(11) NOT NULL,
+  `paket` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `paket`
+--
+
+INSERT INTO `paket` (`id_paket`, `paket`) VALUES
+(1, '3 Mbps'),
+(2, '5 Mbps'),
+(3, '6 Mbps'),
+(4, '10 Mpbs'),
+(5, '20 Mbps');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pelanggan`
+--
+
+CREATE TABLE `pelanggan` (
+  `id_pelanggan` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `no_wa` varchar(15) NOT NULL,
+  `alamat` varchar(100) NOT NULL,
+  `id_paket` int(11) NOT NULL,
+  `ip` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `pelanggan`
+--
+
+INSERT INTO `pelanggan` (`id_pelanggan`, `username`, `password`, `no_wa`, `alamat`, `id_paket`, `ip`) VALUES
+(1, 'test', '123', '0', '', 4, '192.168.10.19'),
+(2, 'tedjo', '111', '0', '', 1, '192.168.35.35'),
+(3, 'tuman', '2005', '0', '', 1, '192.168.25.22');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pembayaran`
+--
+
+CREATE TABLE `pembayaran` (
+  `id_pembayaran` int(11) NOT NULL,
+  `id_pelanggan` int(11) NOT NULL,
+  `tgl_bayar` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `pembayaran`
+--
+
+INSERT INTO `pembayaran` (`id_pembayaran`, `id_pelanggan`, `tgl_bayar`) VALUES
+(1, 1, '2022-01-01'),
+(2, 1, '2022-02-01'),
+(4, 1, '2022-03-01'),
+(6, 1, '2022-04-01'),
+(7, 1, '2022-05-01'),
+(8, 2, '2022-01-01'),
+(9, 1, '2023-01-01'),
+(10, 1, '2023-02-01'),
+(11, 1, '2023-03-18'),
+(12, 1, '2023-03-18'),
+(13, 3, '2023-01-01'),
+(14, 3, '2023-02-01');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pkl`
 --
 
 CREATE TABLE `pkl` (
@@ -37,10 +112,10 @@ CREATE TABLE `pkl` (
   `email` varchar(30) NOT NULL,
   `awalpkl` date NOT NULL,
   `akhirpkl` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `pkl`
+-- Dumping data untuk tabel `pkl`
 --
 
 INSERT INTO `pkl` (`id`, `nama`, `sekolah`, `hp`, `email`, `awalpkl`, `akhirpkl`) VALUES
@@ -70,7 +145,29 @@ INSERT INTO `pkl` (`id`, `nama`, `sekolah`, `hp`, `email`, `awalpkl`, `akhirpkl`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur dari tabel `sertifikat`
+--
+
+CREATE TABLE `sertifikat` (
+  `id` int(11) NOT NULL,
+  `nomor_sertifikat` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `sertifikat`
+--
+
+INSERT INTO `sertifikat` (`id`, `nomor_sertifikat`) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `users`
 --
 
 CREATE TABLE `users` (
@@ -78,46 +175,113 @@ CREATE TABLE `users` (
   `name` varchar(20) NOT NULL,
   `password` varchar(50) NOT NULL,
   `role` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data untuk tabel `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `password`, `role`) VALUES
-(1, 'admin', 'c4d9cba628d3bb34940610cdcd9c1d62', 'admin');
+(1, 'admin', 'c4d9cba628d3bb34940610cdcd9c1d62', 'admin'),
+(2, 'tuman', '21232f297a57a5a743894a0e4a801fc3', 'iqbal');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `pkl`
+-- Indeks untuk tabel `paket`
+--
+ALTER TABLE `paket`
+  ADD PRIMARY KEY (`id_paket`);
+
+--
+-- Indeks untuk tabel `pelanggan`
+--
+ALTER TABLE `pelanggan`
+  ADD PRIMARY KEY (`id_pelanggan`),
+  ADD KEY `id_paket` (`id_paket`);
+
+--
+-- Indeks untuk tabel `pembayaran`
+--
+ALTER TABLE `pembayaran`
+  ADD PRIMARY KEY (`id_pembayaran`),
+  ADD KEY `id_pelanggan` (`id_pelanggan`);
+
+--
+-- Indeks untuk tabel `pkl`
 --
 ALTER TABLE `pkl`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- Indeks untuk tabel `sertifikat`
+--
+ALTER TABLE `sertifikat`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `pkl`
+-- AUTO_INCREMENT untuk tabel `paket`
+--
+ALTER TABLE `paket`
+  MODIFY `id_paket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT untuk tabel `pelanggan`
+--
+ALTER TABLE `pelanggan`
+  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT untuk tabel `pembayaran`
+--
+ALTER TABLE `pembayaran`
+  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT untuk tabel `pkl`
 --
 ALTER TABLE `pkl`
   MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT untuk tabel `sertifikat`
+--
+ALTER TABLE `sertifikat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `pelanggan`
+--
+ALTER TABLE `pelanggan`
+  ADD CONSTRAINT `pelanggan` FOREIGN KEY (`id_paket`) REFERENCES `paket` (`id_paket`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `pembayaran`
+--
+ALTER TABLE `pembayaran`
+  ADD CONSTRAINT `pembayaran_ibfk_1` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
