@@ -170,7 +170,7 @@ if (isset($_SESSION['name'])) {
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Sekolah:</label>
-                                                    <select class="form-select" name="sekolah" required>
+                                                    <select class="form-control" name="sekolah" required>
                                                         <option selected>Silahkan Pilih</option>
                                                         <option value="SMK Yapalis">SMK Yapalis</option>
                                                         <option value="SMKN 1 Pungging">SMKN 1 Pungging</option>
@@ -287,7 +287,7 @@ if (isset($_SESSION['name'])) {
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label>Sekolah:</label>
-                                                                        <select class="form-select" name="sekolah" required>
+                                                                        <select class="form-control" name="sekolah" required>
                                                                             <option selected value="<?php echo $data['sekolah']; ?>"><?php echo $data['sekolah']; ?></option>
                                                                             <option value="SMK Yapalis">SMK Yapalis</option>
                                                                             <option value="SMKN 1 Pungging">SMKN 1 Pungging</option>
