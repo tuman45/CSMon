@@ -61,7 +61,7 @@ if (isset($_SESSION['name'])) {
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
-
+                        <input type="button" class="btn btn-primary" value="Back" onClick="history.go(-1);">
                         <h3><?php echo $username; ?></h3>
                         <?php for ($tahun = date('Y'); $tahun >= date('Y') - 2; $tahun--) { ?>
                             <div class="container">
