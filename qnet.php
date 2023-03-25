@@ -1,9 +1,13 @@
 <?php
 session_start();
 if (isset($_SESSION['name'])) {
-
-    // create
     include 'koneksi.php';
+
+    $sql = "SELECT * FROM pelanggan JOIN paket ON pelanggan.id_paket = paket.id_paket";
+    $id_pelangganPembayaran = array();
+    $hasil = mysqli_query($kon, $sql);
+    $str_id_pelanggan = implode($id_pelangganPembayaran);
+    // create
     function input($data)
     {
         $data = trim($data);
@@ -27,14 +31,13 @@ if (isset($_SESSION['name'])) {
 
         if ($create) {
             echo
-            "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
-            $alert =
-                "<div class='alert alert-success'>
+            "<div class='alert alert-success' id='myAlert'>
             <strong>Data Berhasil Ditambah</strong>
             </div>";
+            // refresh page
+            echo "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
         } else {
-            $alert =
-                "<div class='alert alert-danger'>Data Gagal Ditambah.
+            "<div class='alert alert-danger' id='myAlert'>Data Gagal Ditambah.
 <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
 </button>
 </div>";
@@ -65,13 +68,13 @@ if (isset($_SESSION['name'])) {
 
         if ($update) {
             echo
-            "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
-            $alert =
-                "<div class='alert alert-success'>
+            "<div class='alert alert-success' id='myAlert'>
             <strong>Data Berhasil Diubah</strong>
             </div>";
+            // refresh page
+            echo "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
         } else {
-            $alert = "<div class='alert alert-danger'>Data Gagal Diubah.
+            "<div class='alert alert-danger' id='myAlert'>Data Gagal Diubah.
 <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
 </button>
 </div>";
@@ -87,17 +90,41 @@ if (isset($_SESSION['name'])) {
 
         if ($delete > 0) {
             echo
-            "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
-            $alert =
-                "<div class='alert alert-success'>
+            "<div class='alert alert-success' id='myAlert'>
             <strong>Data Berhasil Dihapus</strong>
             </div>";
+            // refresh page
+            echo "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
         } else {
-            $alert =
-                "<div class='alert alert-danger'>Data Gagal Dihapus.
+            "<div class='alert alert-danger' id='myAlert'>Data Gagal Dihapus.
             <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
             </button>
             </div>";
+        }
+    }
+
+    // Pembayaran
+    if (isset($_POST['list'])) {
+
+        $id_pelanggan = input($_POST["pelanggan"]);
+        $tgl_bayar = input($_POST["tgl_bayar"]);
+
+        $sql = "INSERT INTO pembayaran (id_pelanggan, tgl_bayar) VALUES ('$id_pelanggan', '$tgl_bayar')";
+
+        $createPembayaran = mysqli_query($kon, $sql);
+
+        if ($createPembayaran) {
+            echo
+            "<div class='alert alert-success' id='myAlert'>
+            <strong>Data Berhasil Ditambah</strong>
+            </div>";
+            // refresh page
+            echo "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
+        } else {
+            "<div class='alert alert-danger' id='myAlert'>Data Gagal Ditambah.
+<button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
+</button>
+</div>";
         }
     }
 ?>
@@ -127,6 +154,9 @@ if (isset($_SESSION['name'])) {
         <!-- Custom styles for this page -->
         <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+        <!-- Select Picker -->
+        <link href="vendor/dist/css/bootstrap-select.min.css" rel="stylesheet">
+
     </head>
 
     <body id="page-top">
@@ -150,6 +180,50 @@ if (isset($_SESSION['name'])) {
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
+                        <!-- Modal Add Pembayaran -->
+                        <div class="modal fade" id="list" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Masukkan Data</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <div class="form-group">
+                                                <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+                                                    <div class="search_select_box">
+                                                        <select class="form-control" data-live-search="true" name="pelanggan" id="pelanggan" title="Nama Pelanggan">
+                                                            <?php
+                                                            include "koneksi.php";
+                                                            $sqlList = "SELECT * FROM pelanggan";
+                                                            $ambilPembayaran = mysqli_query($kon, $sqlList);
+                                                            while ($list = mysqli_fetch_array($ambilPembayaran)) { ?>
+                                                                <option name="id_pelanggan" value="<?php echo $list["id_pelanggan"] ?>"><?php echo $list["username"] ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tgl_bayar">Tanggal Pembayaran</label>
+                                                <input class="form-control" type="date" name="tgl_bayar" id="tgl_bayar">
+                                            </div>
+                                            <div>
+                                                <p class="text-danger font-weight-bold">Note : <small>*Pastikan Anda Memasukkan Data Dengan Benar</small></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                        <button type="submit" name="list" class="btn btn-primary">Kirim</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                        <!-- End Modal Add Pembayaran -->
                         <!-- Modal create -->
                         <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -170,7 +244,7 @@ if (isset($_SESSION['name'])) {
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Pasword :</label>
-                                                    <input type="password" name="password" class="form-control" required />
+                                                    <input type="text" name="password" class="form-control" required />
                                                 </div>
                                                 <div class="form-group">
                                                     <label>No. Yang Bisa Dihubungi :</label>
@@ -217,6 +291,9 @@ if (isset($_SESSION['name'])) {
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create"><i class="fas fa-plus-circle"></i>
                                         Tambah Baru
                                     </button>
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#list"><i class="fas fa-plus-circle"></i>
+                                        Pembayaran Baru
+                                    </button>
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -233,21 +310,21 @@ if (isset($_SESSION['name'])) {
                                         <tbody>
                                             <tr>
                                                 <?php
-                                                $sql = "SELECT * FROM pelanggan JOIN paket ON pelanggan.id_paket = paket.id_paket";
                                                 $no = 0;
-                                                $hasil = mysqli_query($kon, $sql);
                                                 while ($row = mysqli_fetch_array($hasil)) {
-                                                    $no++ ?>
+                                                    $no++; ?>
                                                     <td><?php echo $no ?></td>
-                                                    <td><a class="text-reset text-decoration-none" href="detail_pelanggan.php?id_pelanggan=<?php echo $row["id_pelanggan"] ?>"><?php echo $row["username"] ?></a></td>
+                                                    <td><?php echo $row["username"] ?></td>
                                                     <td><?php echo $row["password"] ?></td>
                                                     <td><?php echo $row["no_wa"] ?></td>
                                                     <td><?php echo $row["alamat"] ?></td>
                                                     <td><?php echo $row["paket"] ?></td>
                                                     <td><?php echo $row["ip"] ?></td>
                                                     <td>
+                                                        </a>
                                                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#update<?= $row['id_pelanggan']; ?>"><i class="fa fa-edit"></i></button>
                                                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?= $row['id_pelanggan']; ?>"><i class="fa fa-trash-alt"></i></button>
+                                                        <a href="detail_pelanggan.php?id_pelanggan=<?php echo $row["id_pelanggan"] ?>" class="btn btn-info"><i class="fa fa-info-circle"></i>
                                                     </td>
                                                     <!-- Modal Edit -->
                                                     <div class="modal fade" id="update<?= $row['id_pelanggan']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -370,6 +447,17 @@ if (isset($_SESSION['name'])) {
         <!-- Page level custom scripts -->
         <script src="js/demo/datatables-demo.js"></script>
 
+        <!-- Select Picker -->
+        <script src="vendor/dist/js/bootstrap-select.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.search_select_box select').selectpicker();
+            })
+            // Kode JavaScript untuk menutup pesan peringatan setelah beberapa detik
+            setTimeout(function() {
+                $('#myAlert').alert('close');
+            }, 3000); // waktu dalam milidetik sebelum alert hilang (5 detik dalam contoh ini)
+        </script>
     </body>
 
     </html>
