@@ -155,7 +155,7 @@ if (isset($_SESSION['name'])) {
         <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
         <!-- Select Picker -->
-        <link href="vendor/dist/css/bootstrap-select.min.css" rel="stylesheet">
+        <link href="vendor/select/css/bootstrap-select.min.css" rel="stylesheet">
 
     </head>
 
@@ -448,7 +448,7 @@ if (isset($_SESSION['name'])) {
         <script src="js/demo/datatables-demo.js"></script>
 
         <!-- Select Picker -->
-        <script src="vendor/dist/js/bootstrap-select.min.js"></script>
+        <script src="vendor/select/js/bootstrap-select.min.js"></script>
         <script>
             $(document).ready(function() {
                 $('.search_select_box select').selectpicker();
