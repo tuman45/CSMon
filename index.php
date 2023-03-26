@@ -392,6 +392,9 @@ if (isset($_SESSION['name'])) {
         <!-- Page level custom scripts -->
         <script src="js/demo/chart-area-demo.js"></script>
         <script src="js/demo/chart-pie-demo.js"></script>
+        
+        <!--Sweet Alert-->
+        <script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
 
     </body>
 
