@@ -66,6 +66,8 @@ if (isset($_SESSION['name'])) {
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+  <!--Sweet Alert-->
+  <script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
 </body>
 
 </html>
@@ -81,9 +83,22 @@ if (isset($_POST['login'])) {
 
     $_SESSION['name'] = $data['name'];
     $_SESSION['name'] = $data['role'];
-    echo "<script language=\"javascript\">alert(\"welcome \");document.location.href='index.php';</script>";
+    echo "<script>
+              Swal.fire({
+              icon: 'success',
+              title: 'login berhasil',
+              confirmButtonText: 'OK'
+              }).then(function(){window.location.href = 'index.php'
+              })
+          </script>";
   } else {
-    echo "<script language=\"javascript\">alert(\"Invalid username or password\");document.location.href='login.php';</script>";
-  }
+    echo "<script>
+              Swal.fire({
+              icon: 'error',
+              title: 'username / password salah',
+              confirmButtonText: 'OK'
+              });
+          </script>";
+}
 }
 ?>
