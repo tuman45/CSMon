@@ -87,7 +87,8 @@ if (isset($_POST['login'])) {
               Swal.fire({
               icon: 'success',
               title: 'login berhasil',
-              confirmButtonText: 'OK'
+              showConfirmButton: false,
+              timer: 2000
               }).then(function(){window.location.href = 'index.php'
               })
           </script>";
@@ -99,6 +100,6 @@ if (isset($_POST['login'])) {
               confirmButtonText: 'OK'
               });
           </script>";
-}
+  }
 }
 ?>
