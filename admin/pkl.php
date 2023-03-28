@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['name'])) {
 
     // create
-    include 'koneksi.php';
+    include '../koneksi.php';
     function input($data)
     {
         $data = trim($data);
@@ -42,7 +42,6 @@ if (isset($_SESSION['name'])) {
     }
 
     // Update
-    include 'koneksi.php';
     //cek apakah ada kiriman form dari method post
     if (isset($_POST['update'])) {
 
@@ -114,17 +113,17 @@ if (isset($_SESSION['name'])) {
 
         <title>CSMon</title>
 
-        <link rel="shortcut icon" href="vendor/fontawesome-free/svgs/regular/laugh-wink.svg">
+        <link rel="shortcut icon" href="../vendor/fontawesome-free/svgs/regular/laugh-wink.svg">
 
         <!-- Custom fonts for this template -->
-        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
         <!-- Custom styles for this template -->
-        <link href="css/sb-admin-2.min.css" rel="stylesheet">
+        <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
         <!-- Custom styles for this page -->
-        <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     </head>
 
@@ -134,14 +133,14 @@ if (isset($_SESSION['name'])) {
         <div id="wrapper">
 
             <!-- Sidebar -->
-            <?php include 'sidebar.php'; ?>
+            <?php include '../sidebar.php'; ?>
             <!-- End of Sidebar -->
 
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
 
                 <!-- Topbar -->
-                <?php include 'topbar.php'; ?>
+                <?php include '../topbar.php'; ?>
                 <!-- End of Topbar -->
 
                 <!-- Main Content -->
@@ -235,7 +234,7 @@ if (isset($_SESSION['name'])) {
                                         </thead>
                                         <tbody>
                                             <?php
-                                            include "koneksi.php";
+                                            include "../koneksi.php";
                                             $sql = "SELECT * FROM pkl ORDER BY id DESC";
 
                                             $hasil = mysqli_query($kon, $sql);
@@ -359,7 +358,7 @@ if (isset($_SESSION['name'])) {
                 <!-- End of Main Content -->
 
                 <!-- Footer -->
-                <?php include 'footer.php'; ?>
+                <?php include '../footer.php'; ?>
                 <!-- End of Footer -->
 
             </div>
@@ -374,24 +373,24 @@ if (isset($_SESSION['name'])) {
         </a>
 
         <!-- Bootstrap core JavaScript-->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../vendor/jquery/jquery.min.js"></script>
+        <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
         <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
         <!-- Custom scripts for all pages-->
-        <script src="js/sb-admin-2.min.js"></script>
+        <script src="../js/sb-admin-2.min.js"></script>
 
         <!-- Page level plugins -->
-        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
         <!-- Page level custom scripts -->
-        <script src="js/demo/datatables-demo.js"></script>
+        <script src="../js/demo/datatables-demo.js"></script>
 
         <!--Sweet Alert-->
-        <script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
+        <script src="../vendor/sweetalert/sweetalert2.all.min.js"></script>
         <script>
             // Close Alert
             setTimeout(function() {
@@ -403,6 +402,6 @@ if (isset($_SESSION['name'])) {
     </html>
 <?php
 } else {
-    echo "<script language=\"javascript\">alert(\"Please login\");document.location.href='login.php';</script>";
+    echo "<script language=\"javascript\">alert(\"Please login\");document.location.href='../login.php';</script>";
 }
 ?>
