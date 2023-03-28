@@ -183,7 +183,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `password`, `role`) VALUES
 (1, 'admin', 'c4d9cba628d3bb34940610cdcd9c1d62', 'admin'),
-(2, 'tuman', '21232f297a57a5a743894a0e4a801fc3', 'iqbal');
+(2, 'cs', '95cc64dd2825f9df13ec4ad683ecf339', 'cs');
 
 --
 -- Indexes for dumped tables
