@@ -37,7 +37,7 @@ if (isset($_SESSION['name'])) {
             // refresh page
             echo "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
         } else {
-            "<div class='alert alert-danger' id='myAlert'>Data Gagal Ditambah.
+            echo "<div class='alert alert-danger'>Data Gagal Ditambah.
 <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
 </button>
 </div>";
@@ -74,7 +74,7 @@ if (isset($_SESSION['name'])) {
             // refresh page
             echo "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
         } else {
-            "<div class='alert alert-danger' id='myAlert'>Data Gagal Diubah.
+            echo "<div class='alert alert-danger'>Data Gagal Diubah.
 <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
 </button>
 </div>";
@@ -96,7 +96,7 @@ if (isset($_SESSION['name'])) {
             // refresh page
             echo "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
         } else {
-            "<div class='alert alert-danger' id='myAlert'>Data Gagal Dihapus.
+            echo "<div class='alert alert-danger'>Data Gagal Dihapus.
             <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
             </button>
             </div>";
@@ -121,7 +121,7 @@ if (isset($_SESSION['name'])) {
             // refresh page
             echo "<meta http-equiv='refresh' content='1; url= qnet.php'/>";
         } else {
-            "<div class='alert alert-danger' id='myAlert'>Data Gagal Ditambah.
+            echo "<div class='alert alert-danger'>Data Gagal Ditambah.
 <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
 </button>
 </div>";
@@ -447,16 +447,19 @@ if (isset($_SESSION['name'])) {
         <!-- Page level custom scripts -->
         <script src="js/demo/datatables-demo.js"></script>
 
+        <!--Sweet Alert-->
+        <script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
+
         <!-- Select Picker -->
         <script src="vendor/select/js/bootstrap-select.min.js"></script>
         <script>
             $(document).ready(function() {
                 $('.search_select_box select').selectpicker();
             })
-            // Kode JavaScript untuk menutup pesan peringatan setelah beberapa detik
+            // Close Alert
             setTimeout(function() {
                 $('#myAlert').alert('close');
-            }, 3000); // waktu dalam milidetik sebelum alert hilang (5 detik dalam contoh ini)
+            }, 3000);
         </script>
     </body>
 

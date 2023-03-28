@@ -21,20 +21,20 @@ if (isset($_SESSION['name'])) {
         $awalpkl = input($_POST["awalpkl"]);
         $akhirpkl = input($_POST["akhirpkl"]);
 
-        $sql = "insert into pkl (nama,sekolah,hp,email,awalpkl,akhirpkl) values ('$nama','$sekolah','$hp','$email','$awalpkl','$akhirpkl')";
+        $sql = "INSERT INTO pkl (nama,sekolah,hp,email,awalpkl,akhirpkl) VALUES ('$nama','$sekolah','$hp','$email','$awalpkl','$akhirpkl')";
 
         $create = mysqli_query($kon, $sql);
 
         if ($create) {
             echo
-            "<meta http-equiv='refresh' content='1; url= pkl.php'/>";
-            $alert =
-                "<div class='alert alert-success'>
+            "<div class='alert alert-success' id='myAlert'>
             <strong>Data Berhasil Ditambah</strong>
             </div>";
+            // refresh page
+            echo "<meta http-equiv='refresh' content='1; url= pkl.php'/>";
         } else {
-            $alert =
-                "<div class='alert alert-danger'>Data Gagal Ditambah.
+            echo
+            "<div class='alert alert-danger'>Data Gagal Ditambah.
 <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
 </button>
 </div>";
@@ -66,13 +66,13 @@ if (isset($_SESSION['name'])) {
 
         if ($update) {
             echo
-            "<meta http-equiv='refresh' content='1; url= pkl.php'/>";
-            $alert =
-                "<div class='alert alert-success'>
+            "<div class='alert alert-success' id='myAlert'>
             <strong>Data Berhasil Diubah</strong>
             </div>";
+            // refresh page
+            echo "<meta http-equiv='refresh' content='1; url= pkl.php'/>";
         } else {
-            $alert = "<div class='alert alert-danger'>Data Gagal Diubah.
+            echo "<div class='alert alert-danger'>Data Gagal Diubah.
 <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
 </button>
 </div>";
@@ -88,14 +88,13 @@ if (isset($_SESSION['name'])) {
 
         if ($delete > 0) {
             echo
-            "<meta http-equiv='refresh' content='1; url= pkl.php'/>";
-            $alert =
-                "<div class='alert alert-success'>
+            "<div class='alert alert-success' id='myAlert'>
             <strong>Data Berhasil Dihapus</strong>
             </div>";
+            // refresh page
+            echo "<meta http-equiv='refresh' content='1; url= pkl.php'/>";
         } else {
-            $alert =
-                "<div class='alert alert-danger'>Data Gagal Dihapus.
+            echo "<div class='alert alert-danger'>Data Gagal Dihapus.
             <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span>
             </button>
             </div>";
@@ -391,6 +390,14 @@ if (isset($_SESSION['name'])) {
         <!-- Page level custom scripts -->
         <script src="js/demo/datatables-demo.js"></script>
 
+        <!--Sweet Alert-->
+        <script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
+        <script>
+            // Close Alert
+            setTimeout(function() {
+                $('#myAlert').alert('close');
+            }, 3000);
+        </script>
     </body>
 
     </html>

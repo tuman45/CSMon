@@ -40,12 +40,13 @@ if (isset($_SESSION['name'])) {
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
 
+                <!-- Topbar -->
+                <?php include 'topbar.php'; ?>
+                <!-- End of Topbar -->
+
                 <!-- Main Content -->
                 <div id="content">
 
-                    <!-- Topbar -->
-                    <?php include 'topbar.php'; ?>
-                    <!-- End of Topbar -->
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
@@ -392,7 +393,7 @@ if (isset($_SESSION['name'])) {
         <!-- Page level custom scripts -->
         <script src="js/demo/chart-area-demo.js"></script>
         <script src="js/demo/chart-pie-demo.js"></script>
-        
+
         <!--Sweet Alert-->
         <script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
 
