@@ -40,15 +40,22 @@ if (isset($_SESSION['name'])) {
                   </div>
                   <form action="" method="POST" class="user">
                     <div class="form-group">
-                      <input type="text" class="form-control form-control-user" name="name" placeholder="Enter Your Name" autofocus>
+                      <input type="text" class="form-control form-control-user" name="name" placeholder="Enter Your Name" autofocus required>
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" name="password" placeholder="Password">
+                      <div class="input-group">
+                        <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Password" required>
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" type="button" id="show-password-toggle" title="Show Password">
+                            <i class="fas fa-eye"></i>
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <div class="form-group"></div>
-
-                    <br>
-                    <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" name="login">Masuk</button>
+                    <div class="form-group">
+                      <br>
+                      <button class="btn btn-lg btn-primary btn-block" type="submit" name="login">Masuk</button>
+                    </div>
                   </form>
 
                 </div>
@@ -68,6 +75,26 @@ if (isset($_SESSION['name'])) {
   <script src="js/sb-admin-2.min.js"></script>
   <!--Sweet Alert-->
   <script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Show/hide password on toggle button click
+      $("#show-password-toggle").on("click", function() {
+        var passwordField = $("#password");
+        var passwordFieldType = passwordField.attr("type");
+        var passwordToggleIcon = $(this).find("i");
+
+        if (passwordFieldType === "password") {
+          passwordField.attr("type", "text");
+          passwordToggleIcon.removeClass("fa-eye").addClass("fa-eye-slash");
+          $(this).attr("title", "Hide Password");
+        } else {
+          passwordField.attr("type", "password");
+          passwordToggleIcon.removeClass("fa-eye-slash").addClass("fa-eye");
+          $(this).attr("title", "Show Password");
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>
@@ -77,21 +104,35 @@ if (isset($_POST['login'])) {
   $name = $_POST['name'];
   $password = md5($_POST['password']);
 
-  $cek = mysqli_num_rows(mysqli_query($kon, "SELECT * FROM users WHERE name='$name' AND password='$password'"));
-  $data = mysqli_fetch_array(mysqli_query($kon, "SELECT * FROM users WHERE name='$name' AND password='$password'"));
+  $query = mysqli_query($kon, "SELECT * FROM users WHERE name='$name' AND password='$password'");
+  $cek = mysqli_num_rows($query);
   if ($cek > 0) {
-
-    $_SESSION['name'] = $data['name'];
-    $_SESSION['name'] = $data['role'];
-    echo "<script>
+    $data = mysqli_fetch_assoc($query);
+    if ($data["role"] == "admin") {
+      $_SESSION['name'] = $name;
+      $_SESSION['role'] = "admin";
+      echo "<script>
               Swal.fire({
               icon: 'success',
               title: 'login berhasil',
               showConfirmButton: false,
               timer: 2000
-              }).then(function(){window.location.href = 'index.php'
+              }).then(function(){window.location.href = 'admin/index.php'
               })
           </script>";
+    } else if ($data["role"] == "cs") {
+      $_SESSION['name'] = $name;
+      $_SESSION['role'] = "cs";
+      echo "<script>
+              Swal.fire({
+              icon: 'success',
+              title: 'login berhasil',
+              showConfirmButton: false,
+              timer: 2000
+              }).then(function(){window.location.href = 'cs/index.php'
+              })
+          </script>";
+    }
   } else {
     echo "<script>
               Swal.fire({

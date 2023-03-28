@@ -28,8 +28,8 @@ if (isset($_SESSION['name'])) {
         return $pecahkan[2] . ' ' . $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[0];
     }
 
-    require 'koneksi.php';
-    require 'fpdf/fpdf.php';
+    require '../koneksi.php';
+    require '../vendor/fpdf/fpdf.php';
 
 
     // Query untuk mengambil nomor sertifikat terakhir
@@ -57,8 +57,8 @@ if (isset($_SESSION['name'])) {
     $akhirpkl = tgl_ind($data["akhirpkl"]);
     $tgl_sertifikat = $awalpkl . ' sampai dengan ' . $akhirpkl;
     $tgl_sekarang = tgl_ind(date("Y-m-d"));
-    $image = 'img/sertifikat-FS.jpg';
-    $ttd = 'img/ttd-stempel.png';
+    $image = '../img/sertifikat-FS.jpg';
+    $ttd = '../img/ttd-stempel.png';
 
     // Set PDF
     $pdf = new FPDF();
@@ -91,7 +91,7 @@ if (isset($_SESSION['name'])) {
     $pdf->SetXY(17, 150);
     $pdf->Cell(0, 10, "Sidoarjo, $tgl_sekarang", 0, 0);
     // Output
-    $pdf->Output('D', 'Sertifikat ' . $nama . '.pdf', false);
+    $pdf->Output('I', 'Sertifikat ' . $nama . '.pdf', false);
 } else {
-    echo "<script language=\"javascript\">alert(\"Please login\");document.location.href='login.php';</script>";
+    echo "<script language=\"javascript\">alert(\"Please login\");document.location.href='../login.php';</script>";
 }
