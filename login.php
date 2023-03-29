@@ -108,31 +108,16 @@ if (isset($_POST['login'])) {
   $cek = mysqli_num_rows($query);
   if ($cek > 0) {
     $data = mysqli_fetch_assoc($query);
-    if ($data["role"] == "admin") {
-      $_SESSION['name'] = $name;
-      $_SESSION['role'] = "admin";
-      echo "<script>
+    $_SESSION['name'] = $name;
+    echo "<script>
               Swal.fire({
               icon: 'success',
               title: 'login berhasil',
               showConfirmButton: false,
               timer: 2000
-              }).then(function(){window.location.href = 'admin/index.php'
+              }).then(function(){window.location.href = 'index.php'
               })
           </script>";
-    } else if ($data["role"] == "cs") {
-      $_SESSION['name'] = $name;
-      $_SESSION['role'] = "cs";
-      echo "<script>
-              Swal.fire({
-              icon: 'success',
-              title: 'login berhasil',
-              showConfirmButton: false,
-              timer: 2000
-              }).then(function(){window.location.href = 'cs/index.php'
-              })
-          </script>";
-    }
   } else {
     echo "<script>
               Swal.fire({
